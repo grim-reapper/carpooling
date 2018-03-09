@@ -8,19 +8,20 @@
 
                     <div style="padding-top:30px" class="panel-body" >
 
-                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                        <div style="display:none" id="form-errors" class="alert alert-danger col-sm-12"></div>
+                        <div style="display:none" id="form-success" class="alert alert-success col-sm-12"></div>
                             
                         <form action="<?php echo site_url('login')?>" method="post" id="loginform" class="form-horizontal" role="form">
-                                    
-                            <div style="margin-bottom: 25px" class="input-group">
-                                        <input id="login-username" type="text" class="form-control required" name="email" value="" placeholder="username or email">                                        
-                                    </div>
-                                
-                            <div style="margin-bottom: 25px" class="input-group">
-                                        <input id="login-password" type="password" class="form-control required" name="password" placeholder="password">
-                                    </div>
-                                    
-
+                            <div class="col-sm-12 controls">                                    
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                    <input type="text" class="form-control required" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control required" name="password">
+                            </div>
+                            </div>  
 
                                 <div style="margin-top:10px" class="form-group">
                                     <!-- Button -->
@@ -121,6 +122,7 @@
                          </div>
                     </div>
          </div> 
+         <div class="loading" style="display:none;">Loading&#8230;</div>
 <script src="<?php echo site_url();?>assets/js/jquery.validate.min.js"></script>
 <script>
     $(function(){
@@ -138,15 +140,24 @@
                   data: dataString,
                   dataType: "json",
                   success:function(data) {
-                    console.log(data);
-                    // This is a callback that runs if the submission was a success.
-                    // Clear the form
-                    // $(':input','#mailform')
-                    //  .not(':button, :submit, :reset, :hidden')
-                    //  .val('')
-                    //  .removeAttr('checked')
-                    //  .removeAttr('selected');
-                    // return false;
+                    $('.loading').hide();
+                    if(data.status == 'success'){
+                        $('#form-errors').hide();
+                        $('#loginform').hide();
+                        var success_msg = '<p>' + data.message + '<br>You will be redirected to dashboard in 5 seconds...</p>';
+                        $('#form-success').show();
+                        $('#form-success').html(success_msg);
+                        setTimeout(function() {
+                            window.location = "<?php echo site_url() ?>dashboard";    
+                        }, 5000);
+                        
+                    }else {
+                        $('#form-errors').show();
+                        $('#form-errors').html(data.message);
+                    }
+                  },
+                  beforeSend: function(){
+                    $('.loading').show();
                   },
                     error:function(){
                         alert('Whoops! This didn\'t work. Please contact us.')

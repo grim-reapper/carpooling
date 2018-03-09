@@ -14,7 +14,7 @@ class AuthController extends CI_Controller {
 	public function doLogin()
 	{
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('email','Email','required|valid_email|is_unique[users.email]');
+		$this->form_validation->set_rules('email','Email','required|valid_email');
 		$this->form_validation->set_rules('password','Password','required');
 		if($this->form_validation->run() == FALSE){
 			echo json_encode(array('status' => 'error','message' => validation_errors()));
@@ -24,7 +24,7 @@ class AuthController extends CI_Controller {
 	    	if($this->auth->login($email,$password)){
 	    		echo json_encode(array('status' => 'success','message' => 'Logged in successfully'));
 	    	}else{
-	    		echo json_encode(array('status' => 'error','message' => 'User not Found!'));
+	    		echo json_encode(array('status' => 'error','message' => 'Invalid email/password combination'));
 	    	}
 		}
 	

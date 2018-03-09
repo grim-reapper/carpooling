@@ -283,6 +283,13 @@ class SimpleLoginSecure
 			return TRUE;
 		}
 	}
+
+	function create_hash($password) {
+        //Hash user_pass using phpass
+            $hasher = new PasswordHash(PHPASS_HASH_STRENGTH, PHPASS_HASH_PORTABLE);
+            $user_pass_hashed = $hasher->HashPassword($password);
+            return $user_pass_hashed;
+    }
 	
 }
 ?>
