@@ -40,4 +40,18 @@ class User_model extends CI_Model {
         return array();
     }
 
+    public function getUserPhoto($user_id){
+        if(empty($user_id)){
+            return false;
+        }
+
+        $query = $this->db->select('pic')->get_where('users',['id' => $user_id]);
+
+        if($query->num_rows() > 0 ){
+            $data = $query->row_array();
+            return $data['pic'];
+        } 
+        return '';
+    }
+
 }

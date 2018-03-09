@@ -71,16 +71,16 @@ class SimpleLoginSecure
 	 * @param	bool
 	 * @return	bool
 	 */
-	function create($user_email = '', $user_pass = '', $auto_login = true) 
+	function create($data,$auto_login = FALSE) 
 	{
 
 		//Make sure account info was sent
-		if($user_email == '' OR $user_pass == '') {
+		if(empty($data)) {
 			return false;
 		}
 		
 		//Check against user table
-		$this->CI->db->where('user_email', $user_email); 
+		$this->CI->db->where('email', $data['email']); 
 		$query = $this->CI->db->get_where($this->user_table);
 		
 		if ($query->num_rows() > 0) //user_email already exists
@@ -88,14 +88,21 @@ class SimpleLoginSecure
 
 		//Hash user_pass using phpass
 		$hasher = new PasswordHash(PHPASS_HASH_STRENGTH, PHPASS_HASH_PORTABLE);
-		$user_pass_hashed = $hasher->HashPassword($user_pass);
+		$user_pass_hashed = $hasher->HashPassword($data['password']);
 
 		//Insert account into the database
 		$data = array(
-					'user_email' => $user_email,
-					'user_pass' => $user_pass_hashed,
-					'user_date' => date('c'),
-					'user_modified' => date('c'),
+					'email' => $data['email'],
+					'first_name' => $data['first_name'],
+					'last_name' => $data['last_name'],
+					'contact_number' => $data['contact_number'],
+					'dob' => $data['dob'],
+					'gender' => $data['gender'],
+					'cnic' => $data['cnic'],
+					'driving_license_number' => $data['driving_license'],
+					'password' => $user_pass_hashed,
+					'created_at' => date('c'),
+					'updated_at' => date('c'),
 				);
 
 		$this->CI->db->set($data); 
@@ -104,7 +111,7 @@ class SimpleLoginSecure
 			return false;						
 				
 		if($auto_login)
-			$this->login($user_email, $user_pass);
+			$this->login($data['email'], $data['password']);
 		
 		return true;
 	}

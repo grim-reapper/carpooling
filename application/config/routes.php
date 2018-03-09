@@ -56,12 +56,13 @@ $route['translate_uri_dashes'] = FALSE;
 // web routes
 $route['login']['GET'] = 'AuthController/showLoginForm';
 $route['login']['POST'] = 'AuthController/doLogin';
+$route['register']['POST'] = 'AuthController/registerUser';
 $route['dashboard']['GET'] = 'UserController/index';
 $route['dashboard/personal-info']['GET'] = 'UserController/showPersonalInfoForm';
 $route['personal-info']['POST'] = 'UserController/savePersonalInfo';
 
 $route['dashboard/photo']['GET'] = 'UserController/showPhotoForm';
-
+$route['dashboard/photo']['POST'] = 'UserController/saveUserPhoto';
 $route['dashboard/preferences']['GET'] = 'UserController/showPreferencesForm';
 $route['preferences']['POST'] = 'UserController/savePreferences';
 

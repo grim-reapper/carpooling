@@ -56,10 +56,38 @@ class UserController extends CI_Controller {
 	}
 
 	public function showPhotoForm(){
-		$this->template->write_view('content','user/photo');
+		$data['photo'] = $this->user_model->getUserPhoto($this->user_id);
+		$this->template->write_view('content','user/photo',$data);
 		$this->template->render();	
 	}
 
+	public function saveUserPhoto(){
+		$filename= $_FILES["file"]["name"];
+		$file_ext = pathinfo($filename,PATHINFO_EXTENSION);
+		  $new_name = time().rand(0,99).'.'.$file_ext;
+		  $config['upload_path']   = './uploads/'; 
+	      $config['allowed_types'] = 'gif|jpg|png'; 
+	      $config['file_name'] = $new_name;
+	      $config['max_size']      = 1024;
+	      $this->load->library('upload', $config);
+
+	      if ( ! $this->upload->do_upload('file')) {
+	         $error = array('error' => $this->upload->display_errors()); 
+	         $this->template->write_view('content','user/photo',$error);
+			 $this->template->render();
+	      }else { 
+	        $uploadedImage = $this->upload->data();
+	        $this->resize_image($uploadedImage['file_name']);
+	        $this->db->set('pic',$new_name);
+	        $this->db->where('id',$this->user_id);
+	        if($this->db->update('users')){
+	        	$this->session->set_flashdata('success','Your photo send for approval');
+	    	}else{
+	    		$this->session->set_flashdata('error','We are unable to upload your photo, please try again later.');
+	    	}
+	        redirect('dashboard/photo');
+	      } 
+	}
 	public function showPreferencesForm(){
 		$data['preference'] = $this->user_model->getUserPreference($this->user_id);
 		$this->template->write_view('content','user/preference',$data);
@@ -107,5 +135,33 @@ class UserController extends CI_Controller {
 		$this->template->write_view('content','user/postal_address');
 		$this->template->render();	
 	}
+
+
+
+
+
+	public function resize_image($filename){
+		$source_path = $_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $filename;
+      $target_path = $_SERVER['DOCUMENT_ROOT'] . '/uploads/thumbnail/';
+      $config_manip = array(
+          'image_library' => 'gd2',
+          'source_image' => $source_path,
+          'new_image' => $target_path,
+          'maintain_ratio' => TRUE,
+          'create_thumb' => TRUE,
+          'thumb_marker' => '',
+          'width' => 150,
+          'height' => 150
+      );
+
+
+      $this->load->library('image_lib', $config_manip);
+      if (!$this->image_lib->resize()) {
+          echo $this->image_lib->display_errors();
+      }
+
+
+      $this->image_lib->clear();
+   }
 	
 }

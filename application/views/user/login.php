@@ -58,65 +58,84 @@
                             <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
                         </div>  
                         <div class="panel-body" >
-                            <form id="signupform" class="form-horizontal" role="form">
-                                
-                                <div id="signupalert" style="display:none" class="alert alert-danger">
-                                    <p>Error:</p>
-                                    <span></span>
+                             <div id="signupalert" style="display:none" class="alert alert-danger">
                                 </div>
                                     
+                                 <div id="signupsuccess" style="display:none" class="alert alert-success">
+                                </div>
+                            <form id="signupform" class="form-horizontal" role="form" method="post" action="<?php echo site_url() ?>register">
                                 
+                               
                                   
                                 <div class="form-group">
                                     <label for="email" class="col-md-3 control-label">Email</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" class="form-control required" name="email" placeholder="Email Address">
                                     </div>
                                 </div>
                                     
                                 <div class="form-group">
                                     <label for="firstname" class="col-md-3 control-label">First Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                        <input type="text" class="form-control required" name="firstname" placeholder="First Name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="lastname" class="col-md-3 control-label">Last Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                        <input type="text" class="form-control required" name="lastname" placeholder="Last Name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="col-md-3 control-label">Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                        <input type="password" class="form-control required" id="password" name="password" placeholder="Password">
                                     </div>
                                 </div>
-                                    
                                 <div class="form-group">
-                                    <label for="icode" class="col-md-3 control-label">Invitation Code</label>
+                                    <label for="password" class="col-md-3 control-label required">Confirm password</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="icode" placeholder="">
+                                        <input type="password" id="conf_password" class="form-control required" name="conf_password" placeholder="Password">
                                     </div>
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="" class="col-md-3 control-label">Phone</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control required" name="contact_number" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-md-3 control-label">Date of birth</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control required" name="dob" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-md-3 control-label">CNIC</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control required" name="cnic" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-md-3 control-label">Driving license number</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control required" name="dln" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="col-md-3 control-label">Gender</label>
+                                    <div class="col-md-9">
+                                        <label class="radio-inline"><input type="radio" name="gender" value="male" checked="checked">Male</label>
+                                        <label class="radio-inline"><input type="radio" name="gender" value="female">Female</label>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <!-- Button -->                                        
                                     <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                                        <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
                                         <span style="margin-left:8px;">or</span>  
                                     </div>
                                 </div>
-                                
-                                <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
-                                    
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button>
-                                    </div>                                           
-                                        
-                                </div>
-                                
-                                
                                 
                             </form>
                          </div>
@@ -131,7 +150,6 @@
         $('#loginform').validate({
             
             submitHandler:function(form) {
-                console.log(form);
                  var dataString = $(form).serialize();
                 // The AJAX
                 $.ajax({  
@@ -154,6 +172,53 @@
                     }else {
                         $('#form-errors').show();
                         $('#form-errors').html(data.message);
+                    }
+                  },
+                  beforeSend: function(){
+                    $('.loading').show();
+                  },
+                    error:function(){
+                        alert('Whoops! This didn\'t work. Please contact us.')
+                    }
+                });
+            }
+        });
+    });
+});
+
+        $(function(){
+    $('#btn-signup').click(function() { 
+        // validate and process form here  
+        $('#signupform').validate({
+            rules: {
+                password:'required',
+                conf_password:{
+                    equalTo:'#password'
+                }
+            },
+            submitHandler:function(form) {
+                 var dataString = $(form).serialize();
+                // The AJAX
+                $.ajax({  
+                  type: 'POST',
+                  url: $(form).attr('action'),
+                  data: dataString,
+                  dataType: "json",
+                  success:function(data) {
+                    $('.loading').hide();
+                    if(data.status == 'success'){
+                        $('#signupalert').hide();
+                        $('#signupform').hide();
+                        var success_msg = '<p>' + data.message + '<br>You will be redirected to dashboard in 5 seconds...</p>';
+                        $('#signupsuccess').show();
+                        $('#signupsuccess').html(success_msg);
+                        setTimeout(function() {
+                            window.location = "<?php echo site_url() ?>dashboard";    
+                        }, 5000);
+                        
+                    }else {
+                        $('#signupalert').show();
+                        $('#signupalert').html(data.message);
                     }
                   },
                   beforeSend: function(){
