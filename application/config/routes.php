@@ -56,6 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 // web routes
 $route['login']['GET'] = 'AuthController/showLoginForm';
 $route['login']['POST'] = 'AuthController/doLogin';
+$route['login/facebook']['GET'] = 'AuthController/facebookRedirect';
+
 $route['register']['POST'] = 'AuthController/registerUser';
 $route['dashboard']['GET'] = 'UserController/index';
 $route['dashboard/personal-info']['GET'] = 'UserController/showPersonalInfoForm';
@@ -69,5 +71,8 @@ $route['preferences']['POST'] = 'UserController/savePreferences';
 $route['dashboard/verification']['GET'] = 'UserController/showVerificationForm';
 $route['dashboard/cars']['GET'] = 'UserController/showCarsForm';
 $route['dashboard/postal-address']['GET'] = 'UserController/showPostalAddressForm';
+
+$route['dashboard/profile/password']['GET'] = 'UserController/showPasswordForm';
+$route['dashboard/profile/password']['POST'] = 'UserController/updateUserPassword';
 
 // api routes

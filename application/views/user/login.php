@@ -28,8 +28,8 @@
 
                                     <div class="col-sm-12 controls">
                                       <button type="submit" id="btn-login" class="btn btn-success">Login  </button>
-                                      <a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>
-
+                                      <a id="btn-fblogin" href="<?php echo site_url()?>login/facebook" class="btn btn-primary">Login with Facebook</a>
+                                    
                                     </div>
                                 </div>
 

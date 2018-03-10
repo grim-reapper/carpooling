@@ -6,7 +6,7 @@
          </div>
          <div class="col-md-9 ">
             <div class= "content-box well">
-               <legend>My Wishlist</legend>
+               <legend>Your car details</legend>
             </div>
          </div>
       </div>

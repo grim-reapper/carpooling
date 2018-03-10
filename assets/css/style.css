@@ -2,6 +2,8 @@ label.error{color:red;font-weight: normal;}
 input.error,textarea.error{border:1px solid red;}
 .list-group-item.heading{
 	background: #eee;
+	color:#424242;
+	font-size:18px;
 }
 .list-group-item.selected,.list-group-item:hover{
     background: #fed141 !important;

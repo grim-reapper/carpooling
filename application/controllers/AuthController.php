@@ -5,8 +5,12 @@ class AuthController extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('user_model');
+		if($this->session->userdata('logged_in')) {
+			redirect('dashboard');
+		}
 	}
-	public function showLoginForm(){
+	public function showLoginForm()
+	{
 		$this->template->write_view('content','user/login');
 		$this->template->render();
 	}
@@ -64,9 +68,62 @@ class AuthController extends CI_Controller {
 	    	}
 		}
 	}
-	public function logout()
+
+	public function loginWithFacebook()
 	{
-		
+		// echo 'herere';die;
+		$this->load->library('facebook');
+
+		$userData = array();
+
+        // Check if user is logged in
+        if($this->facebook->is_authenticated()){
+            // Get user facebook profile details
+            $userProfile = $this->facebook->request('get', '/me?fields=id,first_name,last_name,email,gender,birthday,picture');
+            $birthday_formate = strtotime(date($userProfile['birthday']));
+            $new_birthday_formate = date('Y-m-d',$birthday_formate);
+            // Preparing data for database insertion
+            $userData['provider'] = 'facebook';
+            $userData['provider_id'] = $userProfile['id'];
+            $userData['first_name'] = $userProfile['first_name'];
+            $userData['last_name'] = $userProfile['last_name'];
+            $userData['email'] = $userProfile['email'];
+            $userData['gender'] = $userProfile['gender'];
+            $userData['dob'] = $new_birthday_formate;
+            $userData['is_active'] = 'y';
+            $userData['is_email_verified'] = 'y';
+            $userData['pic_verified'] = 'y';
+            // $userData['profile_url'] = 'https://www.facebook.com/'.$userProfile['id'];
+            $userData['pic'] = $userProfile['picture']['data']['url'];
+            $userdata['created_at'] = date('Y-m-d H:i:s');
+	        $userdata['updated_at'] = date('Y-m-d H:i:s');
+
+            // Insert or update user data
+            $userID = $this->user_model->checkUser($userData);
+
+            // Check user data insert or update status
+            if(!empty($userID)){
+                $data['userData'] = $userData;
+                $this->session->set_userdata('logged_in', true);
+                $this->session->set_userdata('id', $userID);
+                $this->session->set_userdata($userData);
+
+                redirect("dashboard");
+            }else{
+               $data['userData'] = array();
+               redirect('login');
+            }
+        }else{
+            redirect('login');
+        }
+
+        
 	}
 	
+	public function facebookRedirect()
+	{
+		$this->load->library('facebook');
+		$fb_redirect_url = $this->facebook->login_url();
+		redirect($fb_redirect_url);
+	}
 }

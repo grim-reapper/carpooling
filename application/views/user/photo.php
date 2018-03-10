@@ -6,9 +6,13 @@
          </div>
          <div class="col-md-9 ">
             <div class= "content-box well">
-               <legend>My Wishlist</legend>
+               <legend>Your profile photo</legend>
                <?php if(!empty($photo)){ ?>
-                  <img src="<?php echo site_url('uploads/thumbnail/'.$photo) ?>">
+                   <?php if(!empty($this->session->userdata('provider'))){ ?>
+                      <img src="<?php echo $photo ?>">
+                   <?php }else{ ?>
+                      <img src="<?php echo site_url('uploads/thumbnail/'.$photo) ?>">
+                  <?php } ?>
                <?php } ?>
                <?php echo $error ?? '';?> 
                <?php if($this->session->flashdata('success')){ ?>

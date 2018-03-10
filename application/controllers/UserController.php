@@ -14,6 +14,7 @@ class UserController extends CI_Controller {
 
 	public function index()
 	{
+
 		$this->template->write_view('content','user/dashboard');
 		$this->template->render();
 	}
@@ -137,7 +138,34 @@ class UserController extends CI_Controller {
 	}
 
 
+	public function showPasswordForm()
+	{
+		$this->template->write_view('content','user/password_reset');
+		$this->template->render();		
+	}
 
+	public function updateUserPassword()
+	{
+		$this->load->library('form_validation');
+		$this->form_validation->set_rules('curr_password','Current password','required');
+		$this->form_validation->set_rules('new_password','New password','required');
+		$this->form_validation->set_rules('conf_password','Confirm password','required');
+		if ($this->form_validation->run() == FALSE){
+            $errors = validation_errors('<li>', '</li>');
+            $validationErrors = ['status' => 'error','message' => "<div class=\"error\"><ul> $errors </ul></div>"];
+            echo json_encode($validationErrors);
+        }else {
+
+            $curr_password = $this->input->post('curr_password',true);
+            $new_password = $this->input->post('new_password',true);
+
+            if(!$this->auth->edit_password($this->user_id,$curr_password,$new_password)){
+            	echo json_encode(['status' => 'error','message' => 'Current password is not correct']);exit;
+            }else {
+            	echo json_encode(['status' => 'success','message' => 'Your password updated.']);exit;
+            }
+        }
+	}
 
 
 	public function resize_image($filename){
@@ -163,5 +191,11 @@ class UserController extends CI_Controller {
 
       $this->image_lib->clear();
    }
+
+   public function facbeookLogout()
+	{
+		$this->load->library('facebook');
+		$data['logoutUrl'] = $this->facebook->logout_url();
+	}
 	
 }

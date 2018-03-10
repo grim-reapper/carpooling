@@ -45,7 +45,7 @@ class User_model extends CI_Model {
             return false;
         }
 
-        $query = $this->db->select('pic')->get_where('users',['id' => $user_id]);
+        $query = $this->db->select('pic')->get_where('users',['id' => $user_id,'pic_verified' => 'y']);
 
         if($query->num_rows() > 0 ){
             $data = $query->row_array();
@@ -53,5 +53,24 @@ class User_model extends CI_Model {
         } 
         return '';
     }
+
+    public function checkUser($userdata)
+    {
+		if(empty($userdata)){
+            return false;
+        }
+
+        $query = $this->db->select('*')->get_where('users',['email' => $userdata['email']]);
+	        if($query->num_rows() > 0 ){
+	        	$data = $query->row_array();
+	        	$user_id = $data['id'];
+	            $this->db->where('id',$user_id);
+	            $this->db->update('users',$userdata);
+	            return $user_id;
+	        } else {
+	        	$this->db->insert('users',$userdata);
+	        	return $this->db->insert_id();
+	        }
+   }
 
 }
