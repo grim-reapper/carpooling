@@ -1,26 +1,50 @@
 <?php $uri = $this->uri->segment(2); ?>
-<div class= "sidebar">
-   <div class="list-group">
-      <a href="#" class="list-group-item heading">Profile</a>
-      <a href="<?php echo site_url() ?>dashboard/personal-info" class="list-group-item <?php echo ($uri == 'personal-info') ? 'selected' : ''; ?>">Personal information</a>
-      <a href="<?php echo site_url() ?>dashboard/photo" class="list-group-item <?php echo ($uri == 'photo') ? 'selected' : ''; ?>">Photo</a>
-      <a href="<?php echo site_url() ?>dashboard/preferences" class="list-group-item <?php echo ($uri == 'preferences') ? 'selected' : ''; ?>">Preference</a>
-      <a href="<?php echo site_url() ?>dashboard/verification" class="list-group-item <?php echo ($uri == 'verification') ? 'selected' : ''; ?>">Verification</a>
-      <a href="<?php echo site_url() ?>dashboard/cars" class="list-group-item <?php echo ($uri == 'cars') ? 'selected' : ''; ?>">Car</a>
-      <a href="<?php echo site_url() ?>dashboard/postal-address" class="list-group-item <?php echo ($uri == 'postal-address') ? 'selected' : ''; ?>">Postal address</a>
-   </div>
-   <div class="list-group">
-      <a href="#" class="list-group-item heading">Ratings</a>
-      <a href="#" class="list-group-item">Rating you've received</a>
-      <a href="#" class="list-group-item">Ratings you've left</a>
-   </div>
-   <div class="list-group">
-      <a href="#" class="list-group-item heading">Account</a>
-      <a href="#" class="list-group-item">Notifications</a>
+<div class="span3">
+   <ul class="nav nav-tabs nav-stacked profile-menu">
+      <li class="profile-header-menu">Profile</li>
+      <li class="<?php echo ($uri == 'personal-info') ? 'active' : ''; ?>">
+         <a href="<?php echo site_url() ?>dashboard/personal-info">Personal information</a>
+      </li>
+      <li class="<?php echo ($uri == 'photo') ? 'active' : ''; ?>">
+         <a href="<?php echo site_url() ?>dashboard/photo">Photo</a>
+      </li>
+      <li class="<?php echo ($uri == 'preferences') ? 'active' : ''; ?>">
+         <a href="<?php echo site_url() ?>dashboard/preferences">Preferences</a>
+      </li>
+      <li class="<?php echo ($uri == 'verification') ? 'active' : ''; ?>">
+         <a href="<?php echo site_url() ?>dashboard/verification">Verification</a>
+      </li>
+      <li class="<?php echo ($uri == 'cars') ? 'active' : ''; ?>">
+         <a href="<?php echo site_url() ?>dashboard/cars">Car</a>
+      </li>
+      <li class="<?php echo ($uri == 'postal-address') ? 'active' : ''; ?>">
+         <a href="<?php echo site_url() ?>dashboard/postal-address">Postal address</a>
+      </li>
+   </ul>
+   <ul class="nav nav-tabs nav-stacked profile-menu">
+      <li class="profile-header-menu">Ratings</li>
+      <li>
+         <a href="/dashboard/ratings/received">Ratings you've received</a>
+      </li>
+      <li>
+         <a href="/dashboard/ratings/given">Ratings you've left</a>
+      </li>
+   </ul>
+   <ul class="nav nav-tabs nav-stacked account-menu no-margin-bottom">
+      <li class="profile-header-menu">Account</li>
+      <li>
+         <a href="/dashboard/profile/notifications">Notifications</a>
+      </li>
       <?php if(empty($this->session->userdata('provider'))){ ?>
-         <a href="<?php echo site_url() ?>dashboard/profile/password" class="list-group-item">Reset password</a>
+      <li>
+         <a href="<?php echo site_url() ?>dashboard/profile/password">Password</a>
+      </li>
       <?php } ?>
-      <a href="<?php echo site_url() ?>logout" class="list-group-item">Sign out</a>
-      <a href="#" class="list-group-item">Close my account</a>
-   </div>
+      <li>
+         <a href="<?php echo site_url() ?>logout">Sign out</a>
+      </li>
+      <li>
+         <a href="/dashboard/profile/remove">Close my account</a>
+      </li>
+   </ul>
 </div>

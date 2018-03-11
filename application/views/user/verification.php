@@ -1,14 +1,8 @@
-<div class="site-panel"style="margin-top:110px">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-3">
-            <?php $this->load->view('user/info_sidebar'); ?>
-         </div>
-         <div class="col-md-9 ">
-            <div class= "content-box well">
-               <legend>My Wishlist</legend>
-            </div>
-         </div>
-      </div>
+<div class="row profile">
+  <?php $this->load->view('user/info_sidebar'); ?>
+  <div class="span9">
+    <h1 class="title-lv1 border-bottom margin-bottom">
+      Your car details
+   </h1>
    </div>
 </div>

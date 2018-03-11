@@ -70,6 +70,7 @@ $route['preferences']['POST'] = 'UserController/savePreferences';
 
 $route['dashboard/verification']['GET'] = 'UserController/showVerificationForm';
 $route['dashboard/cars']['GET'] = 'UserController/showCarsForm';
+$route['dashboard/vehicle']['POST'] = 'UserController/saveCarDetail';
 $route['dashboard/postal-address']['GET'] = 'UserController/showPostalAddressForm';
 
 $route['dashboard/profile/password']['GET'] = 'UserController/showPasswordForm';

@@ -6,6 +6,8 @@ class UserController extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('user_model');
+		$this->load->model('vehicle_model');
+		$this->load->model('city_model');
 		if(!$this->session->userdata('logged_in')) {
 			redirect('login');
 		}
@@ -128,8 +130,14 @@ class UserController extends CI_Controller {
 	}
 
 	public function showCarsForm(){
-		$this->template->write_view('content','user/car');
+		$data['cities'] = $this->city_model->getAllCities();
+		$data['vehicle_make'] = $this->vehicle_model->getAllVehicleMake();
+		$this->template->write_view('content','user/car',$data);
 		$this->template->render();	
+	}
+
+	public function saveCarDetail(){
+
 	}
 
 	public function showPostalAddressForm(){
@@ -196,6 +204,13 @@ class UserController extends CI_Controller {
 	{
 		$this->load->library('facebook');
 		$data['logoutUrl'] = $this->facebook->logout_url();
+	}
+
+	public function getMakeModels()
+	{
+		$make = $this->input->post('make');
+		$models = $this->vehicle_model->getVehicleModel($make);
+		echo json_encode($models);
 	}
 	
 }

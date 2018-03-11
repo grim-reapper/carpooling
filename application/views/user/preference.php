@@ -1,13 +1,10 @@
-<div class="site-panel"style="margin-top:110px">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-3">
-            <?php $this->load->view('user/info_sidebar'); ?>
-         </div>
-         <div class="col-md-9 ">
-            <div class= "content-box well">
-               <legend>Your preferences</legend>
-               <div class="alert alert-danger" id="form-errors" style="display:none;"></div>
+<div class="row profile">
+  <?php $this->load->view('user/info_sidebar'); ?>
+  <div class="span9">
+    <h1 class="title-lv1 border-bottom margin-bottom">
+      Your preferences
+   </h1>
+   <div class="alert alert-danger" id="form-errors" style="display:none;"></div>
                <div class="alert alert-success" id="form-success" style="display:none;"></div>
                <form class="form-horizontal" action="<?php echo site_url() ?>preferences" method="post" id="my-form">
                    <div class="form-group">
@@ -72,10 +69,7 @@
                      </div>
                    </div>
                  </form>
-            </div>
-         </div>
-      </div>
-   </div>
+ </div>
 </div>
 
 <script src="<?php echo site_url();?>assets/js/jquery.validate.min.js"></script>
