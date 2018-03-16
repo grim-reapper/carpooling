@@ -4,7 +4,7 @@
          <a href="<?php echo site_url() ?>dashboard">Dashboard</a>
       </li>
       <li>
-         <a href="/rides-offered.html">Rides offered</a>
+         <a href="<?php echo site_url() ?>dashboard/trip-offers/active">Rides offered</a>
       </li>
       <li>
          <a href="/dashboard/my-bookings">Bookings</a>

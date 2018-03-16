@@ -137,7 +137,25 @@ class UserController extends CI_Controller {
 	}
 
 	public function saveCarDetail(){
+		$data['city'] = $this->input->post('city');
+		$data['registration_number'] = $this->input->post('registration_number');
+		$data['make'] = $this->input->post('make');
+		$data['model'] = $this->input->post('model');
+		$data['vehicle_type'] = $this->input->post('vehicle_type');
+		$data['color'] = $this->input->post('vehicle_color');
+		$data['year'] = $this->input->post('registration_year');
+		$data['is_air_cond'] = $this->input->post('vehicle_status');
 
+		$this->db->insert('cars',$data);
+		$inserted_id = $this->db->insert_id();
+		if(!$inserted_id){
+			$this->session->set_flashdata('error','We are unable to register your car right now, please try again.');
+			redirect('dashboard/vehicle/add');
+		}
+
+		$this->db->insert('user_cars',['user_id' => $this->user_id,'car_id' => $inserted_id]);
+		$this->session->set_flashdata('success','Your car details added successfully');
+		redirect('dashboard/vehicle/add');
 	}
 
 	public function showPostalAddressForm(){
@@ -211,6 +229,14 @@ class UserController extends CI_Controller {
 		$make = $this->input->post('make');
 		$models = $this->vehicle_model->getVehicleModel($make);
 		echo json_encode($models);
+	}
+
+	function getCities(){
+		$city_name = $this->input->post('query');
+		$query = $this->db->query("SELECT * FROM cities WHERE name LIKE '%$city_name%'");
+		if($query->num_rows() > 0){
+			echo json_encode($query->result_array());
+		}
 	}
 	
 }

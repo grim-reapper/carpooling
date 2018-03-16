@@ -14,8 +14,8 @@
       <li class="<?php echo ($uri == 'verification') ? 'active' : ''; ?>">
          <a href="<?php echo site_url() ?>dashboard/verification">Verification</a>
       </li>
-      <li class="<?php echo ($uri == 'cars') ? 'active' : ''; ?>">
-         <a href="<?php echo site_url() ?>dashboard/cars">Car</a>
+      <li class="<?php echo ($uri == 'vehicle') ? 'active' : ''; ?>">
+         <a href="<?php echo site_url() ?>dashboard/vehicle/add">Car</a>
       </li>
       <li class="<?php echo ($uri == 'postal-address') ? 'active' : ''; ?>">
          <a href="<?php echo site_url() ?>dashboard/postal-address">Postal address</a>

@@ -69,11 +69,15 @@ $route['dashboard/preferences']['GET'] = 'UserController/showPreferencesForm';
 $route['preferences']['POST'] = 'UserController/savePreferences';
 
 $route['dashboard/verification']['GET'] = 'UserController/showVerificationForm';
-$route['dashboard/cars']['GET'] = 'UserController/showCarsForm';
+$route['dashboard/vehicle']['GET'] = 'UserController/showCarsForm';
+$route['dashboard/vehicle/add']['GET'] = 'UserController/showCarsForm';
 $route['dashboard/vehicle']['POST'] = 'UserController/saveCarDetail';
 $route['dashboard/postal-address']['GET'] = 'UserController/showPostalAddressForm';
 
 $route['dashboard/profile/password']['GET'] = 'UserController/showPasswordForm';
 $route['dashboard/profile/password']['POST'] = 'UserController/updateUserPassword';
+
+$route['dashboard/trip-offers/active'] = 'RidesController/index';
+$route['offer-seats/(:any)'] = 'RidesController/offerSeats/$1';
 
 // api routes

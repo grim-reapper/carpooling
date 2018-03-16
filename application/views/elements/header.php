@@ -51,7 +51,7 @@
                aria-expanded="false"
                role="button"
                data-toggle="dropdown">
-               Inam K<span class="Header-navigationAvatar">
+               <?php echo ($this->session->userdata('logged_in')) ? $this->session->userdata('first_name').' '. $this->session->userdata('last_name') : ''; ?><span class="Header-navigationAvatar">
                <span
                   class="CountBubble CountBubble--avatar js-ipc-total-notification-unread"
                   title="unread notifications">2</span>
